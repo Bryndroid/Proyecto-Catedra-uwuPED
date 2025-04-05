@@ -1,0 +1,410 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TropiKongModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="id_Cli" />
+          </Key>
+          <Property Name="id_Cli" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="300" />
+          <Property Name="Apellido" Type="varchar" MaxLength="300" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" />
+          <Property Name="Dirreccion" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="id_Empleado" />
+          </Key>
+          <Property Name="id_DB" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Empleado" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="300" />
+          <Property Name="Apellido" Type="varchar" MaxLength="300" />
+          <Property Name="Sucursal" Type="varchar" MaxLength="150" />
+          <Property Name="id_Supervisor" Type="int" />
+        </EntityType>
+        <EntityType Name="existencias">
+          <Key>
+            <PropertyRef Name="id_Existencia" />
+          </Key>
+          <Property Name="id_Existencia" Type="int" Nullable="false" />
+          <Property Name="id_Empleado" Type="varchar" MaxLength="150" />
+          <Property Name="tipo" Type="varchar" MaxLength="150" />
+          <Property Name="nombre" Type="varchar" MaxLength="450" />
+          <Property Name="precio" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="cantidad" Type="int" />
+          <Property Name="fecha" Type="date" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="id_Produc" />
+          </Key>
+          <Property Name="id_Produc" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="340" />
+          <Property Name="precio" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="descripcion" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Supervisor">
+          <Key>
+            <PropertyRef Name="id_Supervisor" />
+          </Key>
+          <Property Name="id_Supervisor" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="300" />
+          <Property Name="Apellido" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="Venta">
+          <Key>
+            <PropertyRef Name="id_Venta" />
+          </Key>
+          <Property Name="id_Venta" Type="int" Nullable="false" />
+          <Property Name="id_Cli" Type="int" />
+          <Property Name="total" Type="decimal" Precision="23" Scale="2" />
+          <Property Name="fecha" Type="date" />
+          <Property Name="descripcion" Type="varchar" MaxLength="450" />
+        </EntityType>
+        <EntityType Name="Venta_Productos">
+          <Key>
+            <PropertyRef Name="id_VentaIDEN" />
+          </Key>
+          <Property Name="id_VentaIDEN" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_Venta" Type="int" />
+          <Property Name="id_Produc" Type="int" />
+          <Property Name="cantidad" Type="varchar" MaxLength="150" />
+        </EntityType>
+        <Association Name="FK__Empleado__id_Sup__398D8EEE">
+          <End Role="Supervisor" Type="Self.Supervisor" Multiplicity="0..1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supervisor">
+              <PropertyRef Name="id_Supervisor" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="id_Supervisor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Venta__id_Cli__09A971A2">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="id_Cli" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="id_Cli" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Venta_Pro__id_Pr__0D7A0286">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="0..1" />
+          <End Role="Venta_Productos" Type="Self.Venta_Productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="id_Produc" />
+            </Principal>
+            <Dependent Role="Venta_Productos">
+              <PropertyRef Name="id_Produc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Venta_Pro__id_Ve__0C85DE4D">
+          <End Role="Venta" Type="Self.Venta" Multiplicity="0..1" />
+          <End Role="Venta_Productos" Type="Self.Venta_Productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Venta">
+              <PropertyRef Name="id_Venta" />
+            </Principal>
+            <Dependent Role="Venta_Productos">
+              <PropertyRef Name="id_Venta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TropiKongModelStoreContainer">
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="existencias" EntityType="Self.existencias" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supervisor" EntityType="Self.Supervisor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Venta" EntityType="Self.Venta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Venta_Productos" EntityType="Self.Venta_Productos" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Empleado__id_Sup__398D8EEE" Association="Self.FK__Empleado__id_Sup__398D8EEE">
+            <End Role="Supervisor" EntitySet="Supervisor" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Venta__id_Cli__09A971A2" Association="Self.FK__Venta__id_Cli__09A971A2">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Venta" EntitySet="Venta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Venta_Pro__id_Pr__0D7A0286" Association="Self.FK__Venta_Pro__id_Pr__0D7A0286">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Venta_Productos" EntitySet="Venta_Productos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Venta_Pro__id_Ve__0C85DE4D" Association="Self.FK__Venta_Pro__id_Ve__0C85DE4D">
+            <End Role="Venta" EntitySet="Venta" />
+            <End Role="Venta_Productos" EntitySet="Venta_Productos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TropiKongModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cliente">
+          <Key>
+            <PropertyRef Name="id_Cli" />
+          </Key>
+          <Property Name="id_Cli" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Dirreccion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Venta" Relationship="Self.FK__Venta__id_Cli__09A971A2" FromRole="Cliente" ToRole="Venta" />
+        </EntityType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="id_Empleado" />
+          </Key>
+          <Property Name="id_DB" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Empleado" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Sucursal" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="id_Supervisor" Type="Int32" />
+          <NavigationProperty Name="Supervisor" Relationship="Self.FK__Empleado__id_Sup__398D8EEE" FromRole="Empleado" ToRole="Supervisor" />
+        </EntityType>
+        <EntityType Name="existencias">
+          <Key>
+            <PropertyRef Name="id_Existencia" />
+          </Key>
+          <Property Name="id_Existencia" Type="Int32" Nullable="false" />
+          <Property Name="id_Empleado" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="tipo" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" MaxLength="450" FixedLength="false" Unicode="false" />
+          <Property Name="precio" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="cantidad" Type="Int32" />
+          <Property Name="fecha" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="id_Produc" />
+          </Key>
+          <Property Name="id_Produc" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="340" FixedLength="false" Unicode="false" />
+          <Property Name="precio" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Venta_Productos" Relationship="Self.FK__Venta_Pro__id_Pr__0D7A0286" FromRole="Producto" ToRole="Venta_Productos" />
+        </EntityType>
+        <EntityType Name="Supervisor">
+          <Key>
+            <PropertyRef Name="id_Supervisor" />
+          </Key>
+          <Property Name="id_Supervisor" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Empleado" Relationship="Self.FK__Empleado__id_Sup__398D8EEE" FromRole="Supervisor" ToRole="Empleado" />
+        </EntityType>
+        <EntityType Name="Venta">
+          <Key>
+            <PropertyRef Name="id_Venta" />
+          </Key>
+          <Property Name="id_Venta" Type="Int32" Nullable="false" />
+          <Property Name="id_Cli" Type="Int32" />
+          <Property Name="total" Type="Decimal" Precision="23" Scale="2" />
+          <Property Name="fecha" Type="DateTime" Precision="0" />
+          <Property Name="descripcion" Type="String" MaxLength="450" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Cliente" Relationship="Self.FK__Venta__id_Cli__09A971A2" FromRole="Venta" ToRole="Cliente" />
+          <NavigationProperty Name="Venta_Productos" Relationship="Self.FK__Venta_Pro__id_Ve__0C85DE4D" FromRole="Venta" ToRole="Venta_Productos" />
+        </EntityType>
+        <EntityType Name="Venta_Productos">
+          <Key>
+            <PropertyRef Name="id_VentaIDEN" />
+          </Key>
+          <Property Name="id_VentaIDEN" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_Venta" Type="Int32" />
+          <Property Name="id_Produc" Type="Int32" />
+          <Property Name="cantidad" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK__Venta_Pro__id_Pr__0D7A0286" FromRole="Venta_Productos" ToRole="Producto" />
+          <NavigationProperty Name="Venta" Relationship="Self.FK__Venta_Pro__id_Ve__0C85DE4D" FromRole="Venta_Productos" ToRole="Venta" />
+        </EntityType>
+        <Association Name="FK__Venta__id_Cli__09A971A2">
+          <End Role="Cliente" Type="Self.Cliente" Multiplicity="0..1" />
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cliente">
+              <PropertyRef Name="id_Cli" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="id_Cli" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Empleado__id_Sup__398D8EEE">
+          <End Role="Supervisor" Type="Self.Supervisor" Multiplicity="0..1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supervisor">
+              <PropertyRef Name="id_Supervisor" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="id_Supervisor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Venta_Pro__id_Pr__0D7A0286">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="0..1" />
+          <End Role="Venta_Productos" Type="Self.Venta_Productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="id_Produc" />
+            </Principal>
+            <Dependent Role="Venta_Productos">
+              <PropertyRef Name="id_Produc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Venta_Pro__id_Ve__0C85DE4D">
+          <End Role="Venta" Type="Self.Venta" Multiplicity="0..1" />
+          <End Role="Venta_Productos" Type="Self.Venta_Productos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Venta">
+              <PropertyRef Name="id_Venta" />
+            </Principal>
+            <Dependent Role="Venta_Productos">
+              <PropertyRef Name="id_Venta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="lanacaDB111" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+          <EntitySet Name="Empleado" EntityType="Self.Empleado" />
+          <EntitySet Name="existencias" EntityType="Self.existencias" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" />
+          <EntitySet Name="Supervisor" EntityType="Self.Supervisor" />
+          <EntitySet Name="Venta" EntityType="Self.Venta" />
+          <EntitySet Name="Venta_Productos" EntityType="Self.Venta_Productos" />
+          <AssociationSet Name="FK__Venta__id_Cli__09A971A2" Association="Self.FK__Venta__id_Cli__09A971A2">
+            <End Role="Cliente" EntitySet="Cliente" />
+            <End Role="Venta" EntitySet="Venta" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Empleado__id_Sup__398D8EEE" Association="Self.FK__Empleado__id_Sup__398D8EEE">
+            <End Role="Supervisor" EntitySet="Supervisor" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Venta_Pro__id_Pr__0D7A0286" Association="Self.FK__Venta_Pro__id_Pr__0D7A0286">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="Venta_Productos" EntitySet="Venta_Productos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Venta_Pro__id_Ve__0C85DE4D" Association="Self.FK__Venta_Pro__id_Ve__0C85DE4D">
+            <End Role="Venta" EntitySet="Venta" />
+            <End Role="Venta_Productos" EntitySet="Venta_Productos" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TropiKongModelStoreContainer" CdmEntityContainer="lanacaDB111">
+          <EntitySetMapping Name="Cliente">
+            <EntityTypeMapping TypeName="TropiKongModel.Cliente">
+              <MappingFragment StoreEntitySet="Cliente">
+                <ScalarProperty Name="id_Cli" ColumnName="id_Cli" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Dirreccion" ColumnName="Dirreccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empleado">
+            <EntityTypeMapping TypeName="TropiKongModel.Empleado">
+              <MappingFragment StoreEntitySet="Empleado">
+                <ScalarProperty Name="id_DB" ColumnName="id_DB" />
+                <ScalarProperty Name="id_Empleado" ColumnName="id_Empleado" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Sucursal" ColumnName="Sucursal" />
+                <ScalarProperty Name="id_Supervisor" ColumnName="id_Supervisor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="existencias">
+            <EntityTypeMapping TypeName="TropiKongModel.existencias">
+              <MappingFragment StoreEntitySet="existencias">
+                <ScalarProperty Name="id_Existencia" ColumnName="id_Existencia" />
+                <ScalarProperty Name="id_Empleado" ColumnName="id_Empleado" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Producto">
+            <EntityTypeMapping TypeName="TropiKongModel.Producto">
+              <MappingFragment StoreEntitySet="Producto">
+                <ScalarProperty Name="id_Produc" ColumnName="id_Produc" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Supervisor">
+            <EntityTypeMapping TypeName="TropiKongModel.Supervisor">
+              <MappingFragment StoreEntitySet="Supervisor">
+                <ScalarProperty Name="id_Supervisor" ColumnName="id_Supervisor" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Venta">
+            <EntityTypeMapping TypeName="TropiKongModel.Venta">
+              <MappingFragment StoreEntitySet="Venta">
+                <ScalarProperty Name="id_Venta" ColumnName="id_Venta" />
+                <ScalarProperty Name="id_Cli" ColumnName="id_Cli" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Venta_Productos">
+            <EntityTypeMapping TypeName="TropiKongModel.Venta_Productos">
+              <MappingFragment StoreEntitySet="Venta_Productos">
+                <ScalarProperty Name="id_VentaIDEN" ColumnName="id_VentaIDEN" />
+                <ScalarProperty Name="id_Venta" ColumnName="id_Venta" />
+                <ScalarProperty Name="id_Produc" ColumnName="id_Produc" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

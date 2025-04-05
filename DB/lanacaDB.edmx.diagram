@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b6ede59e807f491ea051a5b223fd83fd" Name="Diagram1">
+        <EntityTypeShape EntityType="TropiKongModel.Cliente" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="TropiKongModel.Empleado" Width="1.5" PointX="8.875" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TropiKongModel.existencias" Width="1.5" PointX="7.875" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TropiKongModel.Producto" Width="1.5" PointX="3" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TropiKongModel.Supervisor" Width="1.5" PointX="6.375" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TropiKongModel.Venta" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="TropiKongModel.Venta_Productos" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="TropiKongModel.FK__Venta__id_Cli__09A971A2" ManuallyRouted="false" />
+        <AssociationConnector Association="TropiKongModel.FK__Empleado__id_Sup__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="TropiKongModel.FK__Venta_Pro__id_Pr__0D7A0286" ManuallyRouted="false" />
+        <AssociationConnector Association="TropiKongModel.FK__Venta_Pro__id_Ve__0C85DE4D" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
